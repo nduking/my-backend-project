@@ -17,7 +17,6 @@
     "url": "https://github.com/nduking/my-backend-project/issues"
   },
   "homepage": "https://github.com/nduking/my-backend-project#readme",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
@@ -28,5 +27,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  }
+  },
+  "description": ""
 }
