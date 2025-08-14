@@ -2,6 +2,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
+//Enable usage of .env files -This must always be at the top-mst part of your server/app/index .js file
 require("dotenv").config();
 
 //Import routes
