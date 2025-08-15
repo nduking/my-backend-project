@@ -33,6 +33,7 @@ app.get("/", (req, res) => {
 //Create a simple route (URL endpoint)
 app.get("/", (req, res) => {
   res.json({
+    status:ok,
     message: "Welcome to your MERN Backend API!",
     endpoints: {
       register: "POST/api/auth/register",
