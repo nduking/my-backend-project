@@ -1,4 +1,4 @@
-const User = require("../models/User.model");
+const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 //Helper function to create JWT token
