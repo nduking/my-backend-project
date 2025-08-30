@@ -1,7 +1,6 @@
 const Product = require("../models/Product.models");
 const mongoose = require("mongoose");
 const { search } = require("../routes/auth");
-const ProductModels = require("../models/Product.models");
 
 const getAllProducts = async (req, res) => {
   try {
@@ -43,13 +42,13 @@ const getAllProducts = async (req, res) => {
     sort[sortBy] = sortOrder === "desc" ? -1 : 1;
 
     // Execute query
-    const products = await ProductModels.find(filter)
+    const products = await Product.find(filter)
       .populate("createdBy", "name email")
       .sort(sort)
       .skip(skip)
       .limit(Number(limit));
 
-    const total = await ProductModels.countDocuments(filter);
+    const total = await Product.countDocuments(filter);
 
     res.json({
       success: true,
