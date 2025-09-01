@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 //Create a simple route (URL endpoint)
 app.get("/", (req, res) => {
   res.json({
-    status:ok,
+    status: ok,
     message: "Welcome to your MERN Backend API!",
     endpoints: {
       register: "POST/api/auth/register",
@@ -44,11 +44,11 @@ app.get("/", (req, res) => {
 });
 
 //Use authentication routes
-app.use('/api/auth',authRoutes);
+app.use("/api/auth", authRoutes);
 
 //Start the server
 app.listen(PORT, () => {
-  console.log('Server is running on port ${PORT}');
+  console.log(`Server is running on port ${PORT}`);
 
-  console.log('Visit://localhost:${PORT}');
+  console.log(`http://localhost:${PORT}`);
 });
