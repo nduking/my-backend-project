@@ -99,8 +99,8 @@ const login = async (req, res) => {
 const getProfile = async (req, res) => {
   try {
     //req.user is set by our auth middleware
-    const user = await User.findById(req.user.userId).select("-password");
-
+    // const user = await User.findById(req.user.userId).select("-password");
+    const user = req.user;
     res.json({
       success: true,
       user,

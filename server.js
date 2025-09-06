@@ -1,6 +1,7 @@
 // installed// Import the packages we installed
 const express = require("express");
 const mongoose = require("mongoose");
+const productRoutes = require ("./routes/product")
 const cors = require("cors");
 
 //Enable usage of .env files -This must always be at the top-mst part of your server/app/index .js file
@@ -27,7 +28,7 @@ const PORT = process.env.PORT || 5000;
 
 // Create a simple route (URL endpoint)
 app.get("/", (req, res) => {
-  res.json({ message: "Hello! Your backend server is running!" });
+  res.status(200).json({ message: "Hello! Your backend server is running!" });
 });
 
 //Create a simple route (URL endpoint)
@@ -35,7 +36,7 @@ app.get("/", (req, res) => {
   res.json({
     status: ok,
     message: "Welcome to your MERN Backend API!",
-    endpoints: {
+    data: {
       register: "POST/api/auth/register",
       login: "POST/api/auth/login",
       profile: "GET/api/auth/profile(requires token",
@@ -45,10 +46,11 @@ app.get("/", (req, res) => {
 
 //Use authentication routes
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 //Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 
-  console.log(`http://localhost:${PORT}`);
+  // console.log(`http://localhost:${PORT}`);
 });
