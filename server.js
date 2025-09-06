@@ -1,7 +1,7 @@
 // installed// Import the packages we installed
 const express = require("express");
 const mongoose = require("mongoose");
-const productRoutes = require ("./routes/product")
+const productRoutes = require("./routes/product");
 const cors = require("cors");
 
 //Enable usage of .env files -This must always be at the top-mst part of your server/app/index .js file
@@ -37,9 +37,9 @@ app.get("/", (req, res) => {
     status: ok,
     message: "Welcome to your MERN Backend API!",
     data: {
-      register: "POST/api/auth/register",
-      login: "POST/api/auth/login",
-      profile: "GET/api/auth/profile(requires token",
+      name: "e-commerce-backend data",
+      class: "feb 2025 cohort",
+      efficiency: "Beginner",
     },
   });
 });
