@@ -12,8 +12,6 @@ const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
-
     //Check if user already exist
     if (existingUser) {
       return res.status(400).json({
@@ -23,9 +21,7 @@ const register = async (req, res) => {
     }
     //Create new user
     const user = new User({ name, email, password });
-    // await useReducer.save();
-
-    await user.save();
+    await useReducer.save();
 
     //Create token
     const token = createToken(user._id);
