@@ -1,6 +1,6 @@
 const Product = require("../models/Product.models");
 const mongoose = require("mongoose");
-const { search } = require("../routes/auth");
+// const { search } = require("../routes/auth");
 
 const getAllProducts = async (req, res) => {
   try {
@@ -16,37 +16,37 @@ const getAllProducts = async (req, res) => {
       search,
     } = req.query;
 
-    // filter object
     const filter = { isActive: true };
 
-    if (category) {
-      filter.category = category;
-    }
+    if (category) filter.category = category;
 
     if (minPrice || maxPrice) {
-      filter.price = {};
-      if (minPrice) filter.price.$gte = Number(minPrice);
-      if (maxPrice) filter.price.$gte = Number(maxPrice);
+      const priceFilter = {};
+      // filter.price = {};
+      if (minPrice) filter.price.$gte = parseInt(minPrice);
+      if (maxPrice) filter.price.$lte = parseInt(maxPrice);
+      if (Object.keys(priceFilter).length) filter.price = priceFilter;
     }
+
     if (inStock === "true") {
       filter.inStock = true;
       filter.stockQuantity = { $gt: 0 };
     }
 
     if (search) {
-      filter.$text = { $search: search };
+      filter.$text = { $search: search }; // Ensure text index exists
+      // Or use regex fallback:
+      // filter.name = { $regex: search, $options: "i" };
     }
-    //pagination
-    const skip = (Number(page) - 1) * Number(limit);
-    const sort = {};
-    sort[sortBy] = sortOrder === "desc" ? -1 : 1;
 
-    // Execute query
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const sort = { [sortBy]: sortOrder === "desc" ? -1 : 1 };
+
     const products = await Product.find(filter)
       .populate("createdBy", "name email")
       .sort(sort)
       .skip(skip)
-      .limit(Number(limit));
+      .limit(parseInt(limit));
 
     const total = await Product.countDocuments(filter);
 
@@ -54,21 +54,10 @@ const getAllProducts = async (req, res) => {
       success: true,
       data: products,
       pagination: {
-        currentPage: Number(page),
-        totalPages: Math.ceil(total / Number(limit)),
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(total / parseInt(limit)),
         totalProducts: total,
-        hasPrevPage: Number(page) > 1,
-      },
-    });
-
-    res.json({
-      success: true,
-      data: product,
-      pagination: {
-        currentPage: Number(page),
-        totalPages: Math.ceil(total / Number(limit)),
-        totalProducts: total,
-        hasPrevPage: Number(page) > 1,
+        hasPrevPage: parseInt(page) > 1,
       },
     });
   } catch (error) {
@@ -84,9 +73,9 @@ const createProduct = async (req, res) => {
     const productData = { ...req.body, createdBy: req.user.userId };
 
     const newProduct = new Product(productData);
-    await newProduct.save();
 
     await newProduct.populate("createdBy", "name email");
+    await newProduct.save();
 
     res.status(201).json({
       success: true,
@@ -96,10 +85,9 @@ const createProduct = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     if (error.code === 11000) {
-      return;
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
-        message: "Product with this sku already exist",
+        message: "Product with this SKU already exists",
       });
     }
 

@@ -4,10 +4,10 @@ const User = require("../models/User");
 const auth = async (req, res, next) => {
   try {
     //Get token from header
-    consttoken = req.header("Authorization")?.replace("Bearer", "");
+    const token = req.header("Authorization")?.replace("Bearer", "").trim();
     if (!token) {
       return res.status(401).json({
-        sucess: false,
+        success: false,
         message: "Access denied. No token provided.",
       });
     }
@@ -15,7 +15,7 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     //Get user from database
-    const user = await User.findById(decoded.userid).select("-passsword");
+    const user = await User.findById(decoded.userid).select("-password");
     if (!user) {
       return res.status(401).json({
         success: false,
