@@ -12,10 +12,6 @@ const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // You didn't add existing user check here
-
-    const existingUser = await User.findOne({ email });
-
     //Check if user already exist
     if (existingUser) {
       return res.status(400).json({
@@ -25,8 +21,7 @@ const register = async (req, res) => {
     }
     //Create new user
     const user = new User({ name, email, password });
-    // await useReducer.save(); // where did you get useReducer from?
-    await user.save();
+    await useReducer.save();
 
     //Create token
     const token = createToken(user._id);
@@ -46,7 +41,7 @@ const register = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error registering user",
+      message: "Error registering user, please try again later",
       error: error.message,
     });
   }
@@ -100,8 +95,8 @@ const login = async (req, res) => {
 const getProfile = async (req, res) => {
   try {
     //req.user is set by our auth middleware
-    const user = await User.findById(req.user.userId).select("-password");
-
+    // const user = await User.findById(req.user.userId).select("-password");
+    const user = req.user;
     res.json({
       success: true,
       user,

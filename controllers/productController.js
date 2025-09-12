@@ -1,6 +1,11 @@
-const Product = require("../models/Product.models");
+const Product = require("../models/product.models");
 const mongoose = require("mongoose");
+<<<<<<< HEAD
 // const { search } = require("../routes/auth");
+=======
+const { search } = require("../routes/auth");
+const productModels = require("../models/product.models")
+>>>>>>> f53bffadf5b3ecbe7365cb934fe2c27a70ae7656
 
 const getAllProducts = async (req, res) => {
   try {
