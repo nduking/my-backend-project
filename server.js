@@ -8,6 +8,7 @@ require("dotenv").config();
 
 //Import routes
 const authRoutes = require("./routes/auth");
+const productRoutes = require("./routes/product");
 
 // application// Create our Express application
 const app = express();
@@ -26,14 +27,14 @@ mongoose
 const PORT = process.env.PORT || 5000;
 
 // Create a simple route (URL endpoint)
-app.get("/", (req, res) => {
-  res.json({ message: "Hello! Your backend server is running!" });
-});
+// app.get("/", (req, res) => {
+//   res.json({ message: "Hello! Your backend server is running!" });
+// });
 
 //Create a simple route (URL endpoint)
 app.get("/", (req, res) => {
   res.json({
-    status:ok,
+    status: ok,
     message: "Welcome to your MERN Backend API!",
     endpoints: {
       register: "POST/api/auth/register",
@@ -44,7 +45,8 @@ app.get("/", (req, res) => {
 });
 
 //Use authentication routes
-app.use('/api/auth',authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 //Start the server
 app.listen(PORT, () => {
