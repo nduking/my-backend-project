@@ -48,9 +48,10 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 
+
 //Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 
-  console.log(`http://localhost:${PORT}`);
+
 });

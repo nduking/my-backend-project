@@ -9,8 +9,8 @@ const auth = require("../middleware/auth");
 const router = express.Router();
   
 // public
-router.get("/", getAllProducts);
-router.post("/", auth, createProduct);
+router.get("/get-all-products", getAllProducts);
+router.post("/create", auth, createProduct);
 
 router.get("/:id", getProductById);
 

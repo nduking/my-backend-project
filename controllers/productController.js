@@ -84,6 +84,7 @@ const createProduct = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    console.log(error);
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,
@@ -135,8 +136,76 @@ const getProductById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid product id",
+      });
+    }
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate("createdBy", "name email");
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+    res.status(201).json({
+      success: true,
+      message: "Product updated successfully",
+      date: product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating product",
+      error: error.message,
+    });
+  }
+};
+
+// Sofy delete
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Type.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid product id",
+      });
+    }
+    // const product = await Product.findByAndDelete(id); //hard delete
+    const product = await Product.findByIdAndUpdate(
+      id,
+      { isActive: false },
+      { new: true }
+    );
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+    res.status(204).json({
+      success: true,
+      message: "Product not found",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting products",
+      error: error.message,
+    });
+  }
+};
 module.exports = {
   getAllProducts,
   createProduct,
   getProductById,
+  updateProduct,
 };
